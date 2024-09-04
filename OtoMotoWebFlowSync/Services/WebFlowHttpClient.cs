@@ -73,6 +73,21 @@ public class WebFlowHttpClient : IWebFlowHttpClient
         };
         return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<FieldData>>(response.Content, options);
     }
+    
+    public async Task<WebFlowCollectionItemsResponse<Car>> GetCars()
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        var response = await client.ExecuteAsync(request);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        var data = JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<Car>>(response.Content, options);
+        return new WebFlowCollectionItemsResponse<Car>();
+    }
 }
 
 public interface IWebFlowHttpClient
@@ -81,5 +96,6 @@ public interface IWebFlowHttpClient
     Task<WebFlowCollectionItemsResponse<FieldData>> GetFuelTypes();
     Task<WebFlowCollectionItemsResponse<FieldData>> GetCarTags();
     Task<WebFlowCollectionItemsResponse<FieldData>> GetBrands();
+    Task<WebFlowCollectionItemsResponse<Car>> GetCars();
 
 }
