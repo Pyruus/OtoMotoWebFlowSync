@@ -31,9 +31,55 @@ public class WebFlowHttpClient : IWebFlowHttpClient
         };
         return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<FieldData>>(response.Content, options);
     }
+    
+    public async Task<WebFlowCollectionItemsResponse<FieldData>> GetFuelTypes()
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.FuelTypesCollectionId}/items");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        var response = await client.ExecuteAsync(request);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<FieldData>>(response.Content, options);
+    }
+    
+    public async Task<WebFlowCollectionItemsResponse<FieldData>> GetCarTags()
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarTagsCollectionId}/items");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        var response = await client.ExecuteAsync(request);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<FieldData>>(response.Content, options);
+    }
+    
+    public async Task<WebFlowCollectionItemsResponse<FieldData>> GetBrands()
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.BrandsCollectionId}/items");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        var response = await client.ExecuteAsync(request);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<FieldData>>(response.Content, options);
+    }
 }
 
 public interface IWebFlowHttpClient
 {
     Task<WebFlowCollectionItemsResponse<FieldData>> GetCarBodyTypes();
+    Task<WebFlowCollectionItemsResponse<FieldData>> GetFuelTypes();
+    Task<WebFlowCollectionItemsResponse<FieldData>> GetCarTags();
+    Task<WebFlowCollectionItemsResponse<FieldData>> GetBrands();
+
 }
