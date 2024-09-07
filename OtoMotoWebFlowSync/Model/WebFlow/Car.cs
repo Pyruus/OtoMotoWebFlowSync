@@ -20,7 +20,7 @@ public class Car : FieldData
     public List<string?>? Tags { get; set; }
     [JsonPropertyName("gallery")]
     public List<Image?>? Gallery { get; set; }
-    [JsonPropertyName("is-automatic-gear")]
+    [JsonPropertyName("isautomaticgear")]
     public bool IsAutomaticGear { get; set; }
     [JsonPropertyName("model")]
     public string? Model { get; set; }
@@ -42,15 +42,15 @@ public class Car : FieldData
     public string? OtomotoLink { get; set; }
     [JsonPropertyName("car-description")]
     public string? CarDescription { get; set; }
-    [JsonPropertyName("is-sold")]
+    [JsonPropertyName("issold")]
     public bool IsSold { get; set; }
-    [JsonPropertyName("brand")]
+    [JsonPropertyName("brand-2")]
     public string? Brand { get; set; }
-    [JsonPropertyName("mileage")]
+    [JsonPropertyName("mileage-2")]
     public int? Mileage { get; set; }
     [JsonPropertyName("vin")]
     public string? Vin { get; set; }
-    [JsonPropertyName("price")]
+    [JsonPropertyName("price-2")]
     public int? Price { get; set; }
     [JsonPropertyName("permissible-load-capacity")]
     public int? PermissibleLoadCapacity { get; set; }

@@ -85,8 +85,31 @@ public class WebFlowHttpClient : IWebFlowHttpClient
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
-        var data = JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<Car>>(response.Content, options);
-        return new WebFlowCollectionItemsResponse<Car>();
+        return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<Car>>(response.Content, options);
+    }
+
+    public async Task<string?> PostCar(WebFlowPostCollectionItemRequest<Car> requestBody)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        request.AddBody(requestBody);
+        try
+        {
+            var response = await client.PostAsync(request);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+            return JsonSerializer.Deserialize<WebFlowPostCollectionItemResponse>(response.Content, options).Id;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+
+        return null;
     }
 }
 
@@ -97,5 +120,6 @@ public interface IWebFlowHttpClient
     Task<WebFlowCollectionItemsResponse<FieldData>> GetCarTags();
     Task<WebFlowCollectionItemsResponse<FieldData>> GetBrands();
     Task<WebFlowCollectionItemsResponse<Car>> GetCars();
+    Task<string?> PostCar(WebFlowPostCollectionItemRequest<Car> requestBody);
 
 }
