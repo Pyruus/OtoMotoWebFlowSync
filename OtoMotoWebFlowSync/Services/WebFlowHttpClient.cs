@@ -161,6 +161,31 @@ public class WebFlowHttpClient : IWebFlowHttpClient
             _logger.LogError(ex.Message);
         }
     }
+    
+    public async Task<string?> UpdateCar(WebFlowPostCollectionItemRequest<Car> requestBody, string itemId)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items/{itemId}");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        request.AddBody(requestBody);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        
+        try
+        {
+            var response = await client.PatchAsync(request);
+            return JsonSerializer.Deserialize<WebFlowPostCollectionItemResponse>(response.Content, options).Id;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+
+        return null;
+    }
 }
 
 public interface IWebFlowHttpClient
