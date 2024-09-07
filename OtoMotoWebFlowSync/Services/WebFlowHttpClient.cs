@@ -199,5 +199,6 @@ public interface IWebFlowHttpClient
     Task PublishCars(WebFlowPublishCollectionItemsRequest requestBody);
     Task DeleteCar(string carId);
     Task UnpublishCar(string carId);
+    Task<string?> UpdateCar(WebFlowPostCollectionItemRequest<Car> requestBody, string itemId);
 
 }
