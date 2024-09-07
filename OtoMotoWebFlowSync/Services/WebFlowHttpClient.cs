@@ -145,6 +145,22 @@ public class WebFlowHttpClient : IWebFlowHttpClient
             _logger.LogError(ex.Message);
         }
     }
+
+    public async Task UnpublishCar(string carId)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items/{carId}/live");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        
+        try
+        { 
+            await client.DeleteAsync(request);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+    }
 }
 
 public interface IWebFlowHttpClient
@@ -157,5 +173,6 @@ public interface IWebFlowHttpClient
     Task<string?> PostCar(WebFlowPostCollectionItemRequest<Car> requestBody);
     Task PublishCars(WebFlowPublishCollectionItemsRequest requestBody);
     Task DeleteCar(string carId);
+    Task UnpublishCar(string carId);
 
 }
