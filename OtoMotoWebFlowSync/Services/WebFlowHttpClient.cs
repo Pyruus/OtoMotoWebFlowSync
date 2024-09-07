@@ -94,14 +94,15 @@ public class WebFlowHttpClient : IWebFlowHttpClient
         var request = new RestRequest();
         request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
         request.AddBody(requestBody);
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        
         try
         {
             var response = await client.PostAsync(request);
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
             return JsonSerializer.Deserialize<WebFlowPostCollectionItemResponse>(response.Content, options).Id;
         }
         catch (Exception ex)
@@ -110,6 +111,39 @@ public class WebFlowHttpClient : IWebFlowHttpClient
         }
 
         return null;
+    }
+
+    public async Task PublishCars(WebFlowPublishCollectionItemsRequest requestBody)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items/publish");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        request.AddBody(requestBody);
+        
+        try
+        { 
+            await client.PostAsync(request);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+    }
+
+    public async Task DeleteCar(string carId)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items/{carId}");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        
+        try
+        { 
+            await client.DeleteAsync(request);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
     }
 }
 
@@ -121,5 +155,7 @@ public interface IWebFlowHttpClient
     Task<WebFlowCollectionItemsResponse<FieldData>> GetBrands();
     Task<WebFlowCollectionItemsResponse<Car>> GetCars();
     Task<string?> PostCar(WebFlowPostCollectionItemRequest<Car> requestBody);
+    Task PublishCars(WebFlowPublishCollectionItemsRequest requestBody);
+    Task DeleteCar(string carId);
 
 }
