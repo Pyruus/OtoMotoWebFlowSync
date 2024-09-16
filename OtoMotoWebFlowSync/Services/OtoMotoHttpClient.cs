@@ -41,9 +41,35 @@ public class OtoMotoHttpClient : IOtoMotoHttpClient
 
         return null;
     }
+
+    public async Task<OtoMotoAdvertsResponse> GetAdverts(string token, int limit, int page)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/account/adverts?limit={limit}&page={page}");
+        var request = new RestRequest();
+        
+        request.AddHeader("Authorization", $"Bearer {token}");
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+        };
+
+        try
+        {
+            var response = await client.GetAsync(request);
+            return JsonSerializer.Deserialize<OtoMotoAdvertsResponse>(response.Content, options);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+
+        return new OtoMotoAdvertsResponse();
+    }
 }
 
 public interface IOtoMotoHttpClient
 {
     Task<string?> GetAccessToken();
+    Task<OtoMotoAdvertsResponse> GetAdverts(string token, int limit, int page);
 }
