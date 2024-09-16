@@ -23,14 +23,17 @@ var builder = Host.CreateDefaultBuilder(args)
             { "OtoMotoConfig:ClientSecret", Environment.GetEnvironmentVariable("ClientSecret")},
             { "OtoMotoConfig:Username", Environment.GetEnvironmentVariable("Username")},
             { "OtoMotoConfig:Password", Environment.GetEnvironmentVariable("Password")},
+            { "OtoMotoConfig:ApiUrl", Environment.GetEnvironmentVariable("OtoMotoApiUrl")},
         });
     })
     .ConfigureServices((context, services) =>
     {
         services.Configure<WebFlowConfig>(context.Configuration.GetSection("WebFlowConfig"));
+        services.Configure<OtoMotoConfig>(context.Configuration.GetSection("OtoMotoConfig"));
         
         services.AddScoped<ISynchronizationService, SynchronizationService>();
         services.AddScoped<IWebFlowHttpClient, WebFlowHttpClient>();
+        services.AddScoped<IOtoMotoHttpClient, OtoMotoHttpClient>();
     })
     .Build();
     
