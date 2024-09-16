@@ -83,4 +83,28 @@ public static class AdvertToCarMapperHelper
             return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "suv")?.Id;
         return null;
     }
+
+    public static string TranslateColor(string? color)
+    {
+        return color switch
+        {
+            "brown-beige" => "Beżowy",
+            "white" => "Biały",
+            "sky-blue" => "Błękitny",
+            "dark-red" => "Bordowy",
+            "brown" => "Brązowy",
+            "black" => "Czarny",
+            "red" => "Czerwony",
+            "purple" => "Fioletowy",
+            "navy-blue" => "Granatowy",
+            "blue" => "Niebieski",
+            "orange" => "Pomarańczowy",
+            "silver" => "Srebrny",
+            "grey" => "Szary",
+            "green" => "Zielony",
+            "yellow-gold" => "Złoty",
+            "yellow" => "Żółty",
+            _ => "Inny kolor"
+        };
+    }
 }

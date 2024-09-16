@@ -78,7 +78,7 @@ public class Car : FieldData
         YearOfProduction = advert.Params?.Year;
         FuelType = AdvertToCarMapperHelper.GetFuelTypeId(advert.Params?.FuelType, fuelTypes);
         EnginePower = $"{advert.Params?.EnginePower} KM";
-        EngineCapacity = advert.Params?.EngineCapacity.ToString();
+        EngineCapacity = $"{advert.Params?.EngineCapacity}  cm3";
         MainPhoto = new Image
         {
             Url = advert.Photos?["1"].LargeSize
@@ -95,7 +95,7 @@ public class Car : FieldData
         FuelBurnedCity = advert.Params?.UrbanConsumption;
         if (advert.Params?.ExtraUrbanConsumption != null)
             FuelBurnedOutsideCity = decimal.Parse(advert.Params?.ExtraUrbanConsumption);
-        CarBodyColor = advert.Params?.Color;
+        CarBodyColor = AdvertToCarMapperHelper.TranslateColor(advert.Params?.Color);
         if (advert.Params?.DoorCount != null) 
             NoOfDoors = int.Parse(advert.Params?.DoorCount);
         if (advert.Params?.NrSeats != null) 

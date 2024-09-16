@@ -9,4 +9,5 @@ public class WebFlowConfig
     public string? FuelTypesCollectionId { get; set; }
     public string? CarTagsCollectionId { get; set; }
     public string? BrandsCollectionId { get; set; }
+    public string? CmsLocaleId { get; set; }
 }
