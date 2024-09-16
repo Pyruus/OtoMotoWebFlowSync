@@ -19,6 +19,10 @@ var builder = Host.CreateDefaultBuilder(args)
             { "WebFlowConfig:FuelTypesCollectionId", Environment.GetEnvironmentVariable("FuelTypesCollectionId") },
             { "WebFlowConfig:CarTagsCollectionId", Environment.GetEnvironmentVariable("CarTagsCollectionId") },
             { "WebFlowConfig:BrandsCollectionId", Environment.GetEnvironmentVariable("BrandsCollectionId") },
+            { "OtoMotoConfig:ClientId", Environment.GetEnvironmentVariable("ClientId")},
+            { "OtoMotoConfig:ClientSecret", Environment.GetEnvironmentVariable("ClientSecret")},
+            { "OtoMotoConfig:Username", Environment.GetEnvironmentVariable("Username")},
+            { "OtoMotoConfig:Password", Environment.GetEnvironmentVariable("Password")},
         });
     })
     .ConfigureServices((context, services) =>
