@@ -36,6 +36,7 @@ public class Params
     public int? EnginePower { get; set; }
     public string? Gearbox { get; set; }
     public string? Transmission { get; set; }
+    public string? ExtraUrbanConsumption { get; set; }
     public string? BluetoothInterface { get; set; }
     public decimal? UrbanConsumption { get; set; }
     public string? Damaged { get; set; }
@@ -68,6 +69,8 @@ public class Params
     public string? HeatedSeatPassenger { get; set; }
     public string? ArmrestFront { get; set; }
     public string? ArmrestRear { get; set; }
+    public int? MaxCargoWeight { get; set; }
+    public int? MaxWeight { get; set; }
 }
 
 public class Price
