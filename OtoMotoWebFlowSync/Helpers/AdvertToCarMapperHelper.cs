@@ -26,7 +26,7 @@ public static class AdvertToCarMapperHelper
             : Math.Round((decimal)capacity / 1000M, 1, MidpointRounding.AwayFromZero).ToString(CultureInfo.InvariantCulture);
     }
 
-    public static List<Image>? MapPhotosToGallery(Dictionary<string, PhotoResolutions>? photos)
+    public static List<Image>? MapPhotosToGallery(Dictionary<string, PhotoResolutions>? photos, int skip = 0)
     {
         return photos?.Select(
             photo => new Image()
@@ -36,7 +36,8 @@ public static class AdvertToCarMapperHelper
                       photo.Value.MediumSize ?? 
                       photo.Value.SmallSize ?? 
                       photo.Value.ThumbnailSize
-            }).ToList();
+            }).Skip(skip)
+            .ToList();
     }
 
     public static string? GetFuelTypeId(string? fuelType, List<CollectionItem<FieldData>> fuelTypes)

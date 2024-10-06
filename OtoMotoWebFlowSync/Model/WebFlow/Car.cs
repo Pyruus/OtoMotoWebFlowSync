@@ -23,6 +23,8 @@ public class Car : FieldData
     public List<string?>? Tags { get; set; }
     [JsonPropertyName("gallery")]
     public List<Image>? Gallery { get; set; }
+    [JsonPropertyName("gallery2")]
+    public List<Image>? Gallery2 { get; set; }
     [JsonPropertyName("isautomaticgear")]
     public bool IsAutomaticGear { get; set; }
     [JsonPropertyName("model")]
@@ -88,6 +90,7 @@ public class Car : FieldData
                   ?? advert.Photos?["1"].ThumbnailSize
         };
         Gallery = AdvertToCarMapperHelper.MapPhotosToGallery(advert.Photos);
+        Gallery2 = AdvertToCarMapperHelper.MapPhotosToGallery(advert.Photos, 25);
         IsAutomaticGear = advert.Params?.Gearbox == "automatic";
         Model = advert.Params?.Model;
         ModelVersion = advert.Params?.Version;

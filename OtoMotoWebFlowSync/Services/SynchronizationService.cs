@@ -22,6 +22,7 @@ public class SynchronizationService : ISynchronizationService
 
     public async Task Run()
     {
+        _logger.LogInformation("Otomoto-webflow synchornization starting");
         var token = await _otoMotoHttpClient.GetAccessToken();
         int page = 1;
         var adverts = await _otoMotoHttpClient.GetAdverts(token, 500, page);
@@ -78,6 +79,8 @@ public class SynchronizationService : ISynchronizationService
         {
             ItemIds = idsToPublish
         });
+        
+        _logger.LogInformation("Finished working");
      }
 
 }
