@@ -70,10 +70,10 @@ public static class AdvertToCarMapperHelper
             return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "kompakt")?.Id; 
         if (bodyType.Contains("panel-van")) 
             return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "furgon-blaszak")?.Id;
-        if (bodyType.Contains("mini"))
-            return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "auta-male")?.Id;
         if (bodyType.Contains("minivan")) 
             return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "minivan")?.Id;
+        if (bodyType.Contains("mini"))
+            return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "auta-male")?.Id;
         if (bodyType.Contains("combi")) 
             return bodyTypes.FirstOrDefault(x => x.FieldData.Slug == "kombi")?.Id;
         if (bodyType.Contains("coupe")) 
