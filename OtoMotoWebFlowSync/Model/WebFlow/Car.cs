@@ -63,6 +63,8 @@ public class Car : FieldData
     public int? MaximumPermissibleWeight { get; set; }
     [JsonPropertyName("engine")]
     public string? Engine { get; set; }
+    [JsonPropertyName("isautomaticallyinserted")]
+    public bool IsAutomaticallyInserted { get; set; }
 
     public Car(){}
     
@@ -113,6 +115,7 @@ public class Car : FieldData
         PermissibleLoadCapacity = advert.Params?.MaxWeight;
         MaximumPermissibleWeight = advert.Params?.MaxCargoWeight;
         Engine = AdvertToCarMapperHelper.MapCapacityToEngineVersion(advert.Params?.EngineCapacity);
+        IsAutomaticallyInserted = true;
     }
 }
 

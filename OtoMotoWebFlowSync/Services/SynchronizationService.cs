@@ -42,7 +42,7 @@ public class SynchronizationService : ISynchronizationService
         var webFlowCars = await _webFlowHttpClient.GetCars();
         
         var carsToInsert = activeAdverts.Where(o => !webFlowCars.Items.Any(w => w.FieldData.Slug == o.Id.ToString())).Select(x => new Car(x, carBodies.Items, fuelTypes.Items, brands.Items));
-        var carsToDelete = webFlowCars.Items.Where(w => !activeAdverts.Any(o => w.FieldData.Slug == o.Id.ToString()));
+        var carsToDelete = webFlowCars.Items.Where(w => !activeAdverts.Any(o => w.FieldData.Slug == o.Id.ToString()) && w.FieldData.IsAutomaticallyInserted);
         var carsToUpdate = webFlowCars.Items.Where(w => activeAdverts.Any(o => w.FieldData.Slug == o.Id.ToString()));
         
         foreach (var car in carsToDelete)
