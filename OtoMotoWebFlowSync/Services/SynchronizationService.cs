@@ -67,10 +67,13 @@ public class SynchronizationService : ISynchronizationService
         
         foreach (var car in carsToUpdate)
         {
-             await _webFlowHttpClient.UpdateCar(new WebFlowPostCollectionItemRequest<Car>
+            bool photosToUpdate = !(car.FieldData.Gallery?.Count + car.FieldData.Gallery2?.Count ==
+                                    activeAdverts.FirstOrDefault(x => x.Id.ToString() == car.FieldData.Slug)?.Photos?.Count);
+            
+            await _webFlowHttpClient.UpdateCar(new WebFlowPostCollectionItemRequest<Car>
             {
                 CmsLocaleId = _webFlowConfig.CmsLocaleId,
-                FieldData = new Car(activeAdverts.FirstOrDefault(x => x.Id.ToString() == car.FieldData.Slug), carBodies.Items, fuelTypes.Items, brands.Items)
+                FieldData = new Car(activeAdverts.FirstOrDefault(x => x.Id.ToString() == car.FieldData.Slug), carBodies.Items, fuelTypes.Items, brands.Items, photosToUpdate)
             }, car.Id);
             idsToPublish.Add(car.Id);
         }

@@ -71,7 +71,8 @@ public class Car : FieldData
     public Car(Advert advert,
         List<CollectionItem<FieldData>> carBodies,
         List<CollectionItem<FieldData>> fuelTypes,
-        List<CollectionItem<FieldData>> brands
+        List<CollectionItem<FieldData>> brands,
+        bool changePhotos = true
         )
     {
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
@@ -83,16 +84,16 @@ public class Car : FieldData
         FuelType = AdvertToCarMapperHelper.GetFuelTypeId(advert.Params?.FuelType, fuelTypes);
         EnginePower = $"{advert.Params?.EnginePower} KM";
         EngineCapacity = $"{advert.Params?.EngineCapacity}  cm3";
-        MainPhoto = new Image
+        MainPhoto = changePhotos ? new Image
         {
             Url = advert.Photos?["1"].LargeSize
                   ?? advert.Photos?["1"].StandardSize
                   ?? advert.Photos?["1"].MediumSize
                   ?? advert.Photos?["1"].SmallSize
                   ?? advert.Photos?["1"].ThumbnailSize
-        };
-        Gallery = AdvertToCarMapperHelper.MapPhotosToGallery(advert.Photos);
-        Gallery2 = AdvertToCarMapperHelper.MapPhotosToGallery(advert.Photos, 25);
+        } : null;
+        Gallery = changePhotos ? AdvertToCarMapperHelper.MapPhotosToGallery(advert.Photos) : null;
+        Gallery2 = changePhotos ? AdvertToCarMapperHelper.MapPhotosToGallery(advert.Photos, 25) : null;
         IsAutomaticGear = advert.Params?.Gearbox == "automatic";
         Model = advert.Params?.Model;
         ModelVersion = advert.Params?.Version;
