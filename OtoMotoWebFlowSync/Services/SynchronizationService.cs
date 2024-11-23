@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OtoMotoWebFlowSync.Config;
+using OtoMotoWebFlowSync.Helpers;
 using OtoMotoWebFlowSync.Model.WebFlow;
 
 namespace OtoMotoWebFlowSync.Services;
@@ -67,10 +68,18 @@ public class SynchronizationService : ISynchronizationService
         
         foreach (var car in carsToUpdate)
         {
-             await _webFlowHttpClient.UpdateCar(new WebFlowPostCollectionItemRequest<Car>
+            var carToInsert = new Car(activeAdverts.FirstOrDefault(x => x.Id.ToString() == car.FieldData.Slug),
+                carBodies.Items, fuelTypes.Items, brands.Items);
+            
+            if (CarCompareHelper.AreCarsEqual(carToInsert, car.FieldData))
+            {
+                continue;
+            }
+            
+            await _webFlowHttpClient.UpdateCar(new WebFlowPostCollectionItemRequest<Car>
             {
                 CmsLocaleId = _webFlowConfig.CmsLocaleId,
-                FieldData = new Car(activeAdverts.FirstOrDefault(x => x.Id.ToString() == car.FieldData.Slug), carBodies.Items, fuelTypes.Items, brands.Items)
+                FieldData = carToInsert
             }, car.Id);
             idsToPublish.Add(car.Id);
         }
