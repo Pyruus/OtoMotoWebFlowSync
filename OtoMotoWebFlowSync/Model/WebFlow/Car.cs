@@ -111,7 +111,7 @@ public class Car : FieldData
         Brand = AdvertToCarMapperHelper.GetBrandId(advert.Params?.Make, brands);
         Mileage = advert.Params?.Mileage;
         Vin = advert.Params?.Vin;
-        Price = advert.Params?.Price?.Amount;
+        Price = Convert.ToInt32(advert.Params?.Price?.Amount);
         PermissibleLoadCapacity = advert.Params?.MaxWeight;
         MaximumPermissibleWeight = advert.Params?.MaxCargoWeight;
         Engine = AdvertToCarMapperHelper.MapCapacityToEngineVersion(advert.Params?.EngineCapacity);
