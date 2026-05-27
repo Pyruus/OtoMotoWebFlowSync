@@ -4,7 +4,7 @@ namespace OtoMotoWebFlowSync.Helpers;
 
 public static class CarCompareHelper
 {
-    public static bool AreCarsEqual(Car first, Car second)
+    public static bool AreCarsEqual(CarForInsert first, CarForGetting second)
     {
         if (first.Name != second.Name) return false;
         if (first.Slug != second.Slug) return false;
@@ -34,6 +34,7 @@ public static class CarCompareHelper
         if (first.PermissibleLoadCapacity != second.PermissibleLoadCapacity) return false;
         if (first.MaximumPermissibleWeight != second.MaximumPermissibleWeight) return false;
         if (first.Engine != second.Engine) return false;
+        if ((first.Video is null && second.Video?.Url is not null) || (first.Video is not null && second.Video?.Url is null)) return false;
         return true;
     }
 }

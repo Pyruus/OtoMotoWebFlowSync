@@ -71,6 +71,7 @@ public class Params
     public string? ArmrestRear { get; set; }
     public int? MaxCargoWeight { get; set; }
     public int? MaxWeight { get; set; }
+    public string? Video { get; set; }
 }
 
 public class Price
