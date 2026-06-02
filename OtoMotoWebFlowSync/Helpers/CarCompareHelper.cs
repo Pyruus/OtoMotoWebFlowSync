@@ -13,8 +13,8 @@ public static class CarCompareHelper
         if (first.FuelType != second.FuelType) return false;
         if (first.EnginePower != second.EnginePower) return false;
         if (first.EngineCapacity != second.EngineCapacity) return false;
-        if (first.Gallery?.Count != second.Gallery?.Count) return false;
-        if (first.Gallery2?.Count != second.Gallery2?.Count) return false;
+        if (!AreGalleriesEqual(first.Gallery, second.Gallery)) return false;
+        if (!AreGalleriesEqual(first.Gallery2, second.Gallery2)) return false;
         if (first.IsAutomaticGear != second.IsAutomaticGear) return false;
         if (first.Model != second.Model) return false;
         if (first.ModelVersion != second.ModelVersion) return false;
@@ -35,6 +35,20 @@ public static class CarCompareHelper
         if (first.MaximumPermissibleWeight != second.MaximumPermissibleWeight) return false;
         if (first.Engine != second.Engine) return false;
         if ((first.Video is null && second.Video?.Url is not null) || (first.Video is not null && second.Video?.Url is null)) return false;
+        return true;
+    }
+
+    private static bool AreGalleriesEqual(List<Image>? first, List<Image>? second)
+    {
+        if (first is null && second is null) return true;
+        if (first is null || second is null) return false;
+        if (first.Count != second.Count) return false;
+
+        for (var i = 0; i < first.Count; i++)
+        {
+            if (first[i].Url != second[i].Url) return false;
+        }
+
         return true;
     }
 }

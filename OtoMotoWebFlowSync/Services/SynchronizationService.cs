@@ -83,10 +83,10 @@ public class SynchronizationService : ISynchronizationService
             var carToInsert = new CarForInsert(activeAdverts.FirstOrDefault(x => x.Id.ToString() == car.FieldData.Slug),
                 carBodies.Items, fuelTypes.Items, brands.Items);
             
-            /*if (CarCompareHelper.AreCarsEqual(carToInsert, car.FieldData))
+            if (CarCompareHelper.AreCarsEqual(carToInsert, car.FieldData))
             {
                 continue;
-            }*/
+            }
             
             await _webFlowHttpClient.UpdateCar(new WebFlowPostCollectionItemRequest<CarForInsert>
             {
