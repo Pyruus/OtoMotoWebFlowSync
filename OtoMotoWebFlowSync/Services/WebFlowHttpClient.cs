@@ -74,9 +74,9 @@ public class WebFlowHttpClient : IWebFlowHttpClient
         return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<FieldData>>(response.Content, options);
     }
     
-    public async Task<WebFlowCollectionItemsResponse<Car>> GetCars()
+    public async Task<WebFlowCollectionItemsResponse<CarForGetting>> GetCars(int offset = 0)
     {
-        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items");
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items?offset={offset}");
         var request = new RestRequest();
         request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
         var response = await client.ExecuteAsync(request);
@@ -85,10 +85,10 @@ public class WebFlowHttpClient : IWebFlowHttpClient
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
-        return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<Car>>(response.Content, options);
+        return JsonSerializer.Deserialize<WebFlowCollectionItemsResponse<CarForGetting>>(response.Content, options);
     }
 
-    public async Task<string?> PostCar(WebFlowPostCollectionItemRequest<Car> requestBody)
+    public async Task<string?> PostCar(WebFlowPostCollectionItemRequest<CarForInsert> requestBody)
     {
         var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items");
         var request = new RestRequest();
@@ -162,7 +162,7 @@ public class WebFlowHttpClient : IWebFlowHttpClient
         }
     }
     
-    public async Task<string?> UpdateCar(WebFlowPostCollectionItemRequest<Car> requestBody, string itemId)
+    public async Task<string?> UpdateCar(WebFlowPostCollectionItemRequest<CarForInsert> requestBody, string itemId)
     {
         var client = new RestClient($"{_config.ApiUrl}/collections/{_config.CarsCollectionId}/items/{itemId}");
         var request = new RestRequest();
@@ -186,6 +186,39 @@ public class WebFlowHttpClient : IWebFlowHttpClient
 
         return null;
     }
+    
+    public async Task UnpublishBrand(string brandId)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.BrandsCollectionId}/items/{brandId}/live");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        
+        try
+        { 
+            await client.DeleteAsync(request);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+    }
+    
+    public async Task PublishBrands(WebFlowPublishCollectionItemsRequest requestBody)
+    {
+        var client = new RestClient($"{_config.ApiUrl}/collections/{_config.BrandsCollectionId}/items/publish");
+        var request = new RestRequest();
+        request.AddHeader("Authorization", $"Bearer {_config.ApiKey}");
+        request.AddBody(requestBody);
+        
+        try
+        { 
+            await client.PostAsync(request);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+        }
+    }
 }
 
 public interface IWebFlowHttpClient
@@ -194,11 +227,13 @@ public interface IWebFlowHttpClient
     Task<WebFlowCollectionItemsResponse<FieldData>> GetFuelTypes();
     Task<WebFlowCollectionItemsResponse<FieldData>> GetCarTags();
     Task<WebFlowCollectionItemsResponse<FieldData>> GetBrands();
-    Task<WebFlowCollectionItemsResponse<Car>> GetCars();
-    Task<string?> PostCar(WebFlowPostCollectionItemRequest<Car> requestBody);
+    Task<WebFlowCollectionItemsResponse<CarForGetting>> GetCars(int offset = 0);
+    Task<string?> PostCar(WebFlowPostCollectionItemRequest<CarForInsert> requestBody);
     Task PublishCars(WebFlowPublishCollectionItemsRequest requestBody);
     Task DeleteCar(string carId);
     Task UnpublishCar(string carId);
-    Task<string?> UpdateCar(WebFlowPostCollectionItemRequest<Car> requestBody, string itemId);
+    Task<string?> UpdateCar(WebFlowPostCollectionItemRequest<CarForInsert> requestBody, string itemId);
+    Task UnpublishBrand(string brandId);
+    Task PublishBrands(WebFlowPublishCollectionItemsRequest requestBody);
 
 }

@@ -37,6 +37,7 @@ public static class AdvertToCarMapperHelper
                       photo.Value.SmallSize ?? 
                       photo.Value.ThumbnailSize
             }).Skip(skip)
+            .Take(25)
             .ToList();
     }
 

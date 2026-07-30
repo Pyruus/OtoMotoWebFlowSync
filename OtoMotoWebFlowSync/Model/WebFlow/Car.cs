@@ -5,7 +5,7 @@ using OtoMotoWebFlowSync.Model.OtoMoto;
 
 namespace OtoMotoWebFlowSync.Model.WebFlow;
 
-public class Car : FieldData
+public class Car<T> : FieldData
 {
     [JsonPropertyName("car-body-type")]
     public string? CarBodyType { get; set; }
@@ -65,10 +65,17 @@ public class Car : FieldData
     public string? Engine { get; set; }
     [JsonPropertyName("isautomaticallyinserted")]
     public bool IsAutomaticallyInserted { get; set; }
+    [JsonPropertyName("video")]
+    public T? Video { get; set; }
 
     public Car(){}
-    
-    public Car(Advert advert,
+}
+
+public class CarForGetting : Car<Video>{}
+
+public class CarForInsert : Car<string>
+{
+    public CarForInsert(Advert advert,
         List<CollectionItem<FieldData>> carBodies,
         List<CollectionItem<FieldData>> fuelTypes,
         List<CollectionItem<FieldData>> brands
@@ -111,15 +118,21 @@ public class Car : FieldData
         Brand = AdvertToCarMapperHelper.GetBrandId(advert.Params?.Make, brands);
         Mileage = advert.Params?.Mileage;
         Vin = advert.Params?.Vin;
-        Price = advert.Params?.Price?.Amount;
+        Price = Convert.ToInt32(advert.Params?.Price?.Amount);
         PermissibleLoadCapacity = advert.Params?.MaxWeight;
         MaximumPermissibleWeight = advert.Params?.MaxCargoWeight;
         Engine = AdvertToCarMapperHelper.MapCapacityToEngineVersion(advert.Params?.EngineCapacity);
         IsAutomaticallyInserted = true;
+        Video = advert.Params?.Video;
     }
 }
 
 public class Image
+{
+    public string? Url { get; set; }
+}
+
+public class Video
 {
     public string? Url { get; set; }
 }

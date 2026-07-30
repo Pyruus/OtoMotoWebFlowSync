@@ -71,6 +71,7 @@ public class Params
     public string? ArmrestRear { get; set; }
     public int? MaxCargoWeight { get; set; }
     public int? MaxWeight { get; set; }
+    public string? Video { get; set; }
 }
 
 public class Price
@@ -78,7 +79,7 @@ public class Price
     [JsonPropertyName("0")]
     public string? Zero { get; set; }
     [JsonPropertyName("1")]
-    public int? Amount { get; set; }
+    public double? Amount { get; set; }
     public string? Currency { get; set; }
     public string? GrossNet { get; set; }
 }

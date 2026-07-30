@@ -1,0 +1,54 @@
+using OtoMotoWebFlowSync.Model.WebFlow;
+
+namespace OtoMotoWebFlowSync.Helpers;
+
+public static class CarCompareHelper
+{
+    public static bool AreCarsEqual(CarForInsert first, CarForGetting second)
+    {
+        if (first.Name != second.Name) return false;
+        if (first.Slug != second.Slug) return false;
+        if (first.CarBodyType != second.CarBodyType) return false;
+        if (first.YearOfProduction != second.YearOfProduction) return false;
+        if (first.FuelType != second.FuelType) return false;
+        if (first.EnginePower != second.EnginePower) return false;
+        if (first.EngineCapacity != second.EngineCapacity) return false;
+        if (!AreGalleriesEqual(first.Gallery, second.Gallery)) return false;
+        if (!AreGalleriesEqual(first.Gallery2, second.Gallery2)) return false;
+        if (first.IsAutomaticGear != second.IsAutomaticGear) return false;
+        if (first.Model != second.Model) return false;
+        if (first.ModelVersion != second.ModelVersion) return false;
+        if (first.Drive != second.Drive) return false;
+        if (first.FuelBurnedCity != second.FuelBurnedCity) return false;
+        if (first.FuelBurnedOutsideCity != second.FuelBurnedOutsideCity) return false;
+        if (first.CarBodyColor != second.CarBodyColor) return false;
+        if (first.NoOfDoors != second.NoOfDoors) return false;
+        if (first.NoOfSeats != second.NoOfSeats) return false;
+        if (first.OtomotoLink != second.OtomotoLink) return false;
+        if (first.CarDescription != second.CarDescription) return false;
+        if (first.IsSold != second.IsSold) return false;
+        if (first.Brand != second.Brand) return false;
+        if (first.Mileage != second.Mileage) return false;
+        if (first.Vin != second.Vin) return false;
+        if (first.Price != second.Price) return false;
+        if (first.PermissibleLoadCapacity != second.PermissibleLoadCapacity) return false;
+        if (first.MaximumPermissibleWeight != second.MaximumPermissibleWeight) return false;
+        if (first.Engine != second.Engine) return false;
+        if ((first.Video is null && second.Video?.Url is not null) || (first.Video is not null && second.Video?.Url is null)) return false;
+        return true;
+    }
+
+    private static bool AreGalleriesEqual(List<Image>? first, List<Image>? second)
+    {
+        if (first is null && second is null) return true;
+        if (first is null || second is null) return false;
+        if (first.Count != second.Count) return false;
+
+        for (var i = 0; i < first.Count; i++)
+        {
+            if (first[i].Url != second[i].Url) return false;
+        }
+
+        return true;
+    }
+}

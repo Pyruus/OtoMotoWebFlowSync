@@ -6,7 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    </PropertyGroup>
+      <UserSecretsId>328d1b7d-8a9d-4f26-8f1d-159161f33bcc</UserSecretsId>
+  </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="DotNetEnv" Version="3.1.1" />

@@ -10,7 +10,8 @@ var builder = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((_, config) =>
     {
         config.AddJsonFile("appsettings.json", false, false);
-        config.AddInMemoryCollection(new Dictionary<string, string?>
+        config.AddUserSecrets<Program>(optional: true);
+        /*config.AddInMemoryCollection(new Dictionary<string, string?>
         {
             { "WebFlowConfig:ApiKey", Environment.GetEnvironmentVariable("WebFlowApiKey") },
             { "WebFlowConfig:ApiUrl", Environment.GetEnvironmentVariable("WebFlowApiUrl") },
@@ -25,7 +26,7 @@ var builder = Host.CreateDefaultBuilder(args)
             { "OtoMotoConfig:Username", Environment.GetEnvironmentVariable("Username")},
             { "OtoMotoConfig:Password", Environment.GetEnvironmentVariable("Password")},
             { "OtoMotoConfig:ApiUrl", Environment.GetEnvironmentVariable("OtoMotoApiUrl")},
-        });
+        });*/
     })
     .ConfigureServices((context, services) =>
     {
